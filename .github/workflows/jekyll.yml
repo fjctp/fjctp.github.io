@@ -42,11 +42,12 @@ jobs:
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        if: github.ref == 'refs/heads/main'  # Only upload on main branch
+        # Only upload on main branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
   # Deploy job - only runs on main branch
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
